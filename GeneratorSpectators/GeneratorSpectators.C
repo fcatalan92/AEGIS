@@ -46,10 +46,36 @@ FairGenerator *GeneratorSingleNeutron() {
   return wrap;
 }
 
+FairGenerator *GeneratorSingleProton() {
+  auto wrap = new GeneratorSpectatorsO2();
+  auto spec = wrap->getGenerator();
+  spec->SetNpart(1);
+  spec->SetParticle(2212);
+  spec->SetMomentum(5360. / 2.);
+  spec->SetDirection(0, 0., 0., 1.);
+  spec->SetDivergence(0.000032);  // beam divergence in murad
+  return wrap;
+}
+
 FairGenerator *GeneratorNeutrons(int nNeutrons = -1, float b = -1., bool useFluctuation = false) {
   auto wrap = new GeneratorSpectatorsO2();
   auto spec = wrap->getGenerator();
   spec->SetImpactParameter(b);
+  spec->SetNpartFluctuation(useFluctuation);
+  spec->SetNpart(nNeutrons);
+  spec->SetMomentum(5360. / 2.);
+  spec->SetDirection(0, 0., 0., 1.);
+  spec->SetDivergence(0.000032);  // beam divergence in murad
+  return wrap;
+}
+
+FairGenerator *GeneratorProtons(int nNeutrons = -1, float b = -1., bool useFluctuation = false) {
+  auto wrap = new GeneratorSpectatorsO2();
+  auto spec = wrap->getGenerator();
+  spec->SetParticle(2212);
+  spec->SetImpactParameter(b);
+  // TODO: implement parameterizations for the number of protons produced
+  // At the moment, those for the neutrons are used
   spec->SetNpartFluctuation(useFluctuation);
   spec->SetNpart(nNeutrons);
   spec->SetMomentum(5360. / 2.);
