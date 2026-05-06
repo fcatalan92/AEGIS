@@ -41,7 +41,12 @@ private:
 
 
 FairGenerator *GeneratorSingleNeutron(float mom = 2680.,
-                                      float beamDiv = 0.000032)
+                                      float beamDiv = 0.000032,
+                                      float beamDivMin = -1.,
+                                      float beamDivMax = -1.,
+                                      float beamCrossAngle = 0.,
+                                      float beamCrossAngleMin = -1.,
+                                      float beamCrossAngleMax = -1.)
 {
   auto wrap = new GeneratorSpectatorsO2();
   auto spec = wrap->getGenerator();
@@ -50,11 +55,19 @@ FairGenerator *GeneratorSingleNeutron(float mom = 2680.,
   spec->SetMomentum(mom);
   spec->SetDirection(0, 0., 0., 1.);
   spec->SetDivergence(beamDiv);
+  spec->SetSampleDivergence(beamDivMin, beamDivMax);
+  spec->SetCrossing(beamCrossAngle, 2);
+  spec->SetSampleCrossing(beamCrossAngleMin, beamCrossAngleMax);
   return wrap;
 }
 
 FairGenerator *GeneratorSingleProton(float mom = 2680.,
-                                     float beamDiv = 0.000032)
+                                     float beamDiv = 0.000032,
+                                     float beamDivMin = -1.,
+                                     float beamDivMax = -1.,
+                                     float beamCrossAngle = 0.,
+                                     float beamCrossAngleMin = -1.,
+                                     float beamCrossAngleMax = -1.)
 {
   auto wrap = new GeneratorSpectatorsO2();
   auto spec = wrap->getGenerator();
@@ -63,6 +76,9 @@ FairGenerator *GeneratorSingleProton(float mom = 2680.,
   spec->SetMomentum(mom);
   spec->SetDirection(0, 0., 0., 1.);
   spec->SetDivergence(beamDiv);
+  spec->SetSampleDivergence(beamDivMin, beamDivMax);
+  spec->SetCrossing(beamCrossAngle, 2);
+  spec->SetSampleCrossing(beamCrossAngleMin, beamCrossAngleMax);
   return wrap;
 }
 
@@ -70,7 +86,12 @@ FairGenerator *GeneratorNeutrons(int nNeutrons = -1,
                                  float b = -1.,
                                  bool useFluctuation = false,
                                  float mom = 2680.,
-                                 float beamDiv = 0.000032)
+                                 float beamDiv = 0.000032,
+                                 float beamDivMin = -1.,
+                                 float beamDivMax = -1.,
+                                 float beamCrossAngle = 0.,
+                                 float beamCrossAngleMin = -1.,
+                                 float beamCrossAngleMax = -1.)
 {
   auto wrap = new GeneratorSpectatorsO2();
   auto spec = wrap->getGenerator();
@@ -81,6 +102,9 @@ FairGenerator *GeneratorNeutrons(int nNeutrons = -1,
   spec->SetMomentum(mom);
   spec->SetDirection(0, 0., 0., 1.);
   spec->SetDivergence(beamDiv);
+  spec->SetSampleDivergence(beamDivMin, beamDivMax);
+  spec->SetCrossing(beamCrossAngle, 2);
+  spec->SetSampleCrossing(beamCrossAngleMin, beamCrossAngleMax);
   return wrap;
 }
 
@@ -88,7 +112,12 @@ FairGenerator *GeneratorProtons(int nNeutrons = -1,
                                 float b = -1.,
                                 bool useFluctuation = false,
                                 float mom = 2680.,
-                                float beamDiv = 0.000032)
+                                float beamDiv = 0.000032,
+                                float beamDivMin = -1.,
+                                float beamDivMax = -1.,
+                                float beamCrossAngle = 0.,
+                                float beamCrossAngleMin = -1.,
+                                float beamCrossAngleMax = -1.)
 {
   auto wrap = new GeneratorSpectatorsO2();
   auto spec = wrap->getGenerator();
@@ -101,6 +130,9 @@ FairGenerator *GeneratorProtons(int nNeutrons = -1,
   spec->SetMomentum(mom);
   spec->SetDirection(0, 0., 0., 1.);
   spec->SetDivergence(beamDiv);
+  spec->SetSampleDivergence(beamDivMin, beamDivMax);
+  spec->SetCrossing(beamCrossAngle, 2);
+  spec->SetSampleCrossing(beamCrossAngleMin, beamCrossAngleMax);
   return wrap;
 }
 

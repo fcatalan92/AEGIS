@@ -36,7 +36,9 @@ GeneratorSpectators::GeneratorSpectators()
   SetDirection();
   SetFermi();
   SetDivergence();
+  SetSampleDivergence();
   SetCrossing();
+  SetSampleCrossing();
 
   for(Int_t i=0; i<201; i++){
      fProbintp[i] = 0;
@@ -49,14 +51,15 @@ GeneratorSpectators::GeneratorSpectators()
 
 void GeneratorSpectators::Init() {
   printf("\n **** GeneratorSpectators initialization:\n");
-  printf("   Impact parameter: %f fm\n", fImpactParameter);
-  printf("   Number of particles to be generated (overwrites estimation from impact parameter): %d\n", fNpart);
-  printf("   Particle PDG: %d, Track: cosx = %f cosy = %f cosz = %f \n", fPDGcode, fCosx, fCosy, fCosz);
-  printf("   Maximum momentum: %f MeV/c", fPtot);
-  printf("   Fermi flag: %d, Beam divergence: %f, Crossing angle: %f, plane: %d\n\n",
-             fFermiflag, fBeamDiv, fBeamCrossAngle, fBeamCrossPlane);
-  // Initialize Fermi momentum distributions for Pb-Pb
-  FermiTwoGaussian(208.);
+  printf("  Impact parameter: %f fm\n", fImpactParameter);
+  printf("  Number of particles to be generated (overwrites estimation from impact parameter): %d\n", fNpart);
+  printf("  Particle PDG: %d, Track: cosx = %f cosy = %f cosz = %f\n", fPDGcode, fCosx, fCosy, fCosz);
+  printf("  Maximum momentum: %f MeV/c, Fermi flag: %d\n", fPtot, fFermiflag);
+  printf("  Beam divergence: %f, Crossing angle: %f, plane: %d\n", fBeamDiv, fBeamCrossAngle, fBeamCrossPlane);
+  printf("  Sample beam divergence: %f-%f (overwrites beam divergence)\n", fBeamDivMin, fBeamDivMax);
+  printf("  Sample crossing angle: %f-%f (overwrites crossing angle)\n", fBeamCrossAngleMin, fBeamCrossAngleMax);
+
+  FermiTwoGaussian(208.);   // Initialize Fermi momentum distributions for Pb-Pb
 }
 
 void GeneratorSpectators::GenerateEvent() {
@@ -93,16 +96,16 @@ void GeneratorSpectators::GenerateEvent() {
 
     if (fDebug) {
       printf("\n Particle momentum before divergence and crossing: ");
-      printf(" 	pLab = (%f, %f, %f)\n", pLab[0], pLab[1], pLab[2]);
+      printf("pLab = (%f, %f, %f)\n", pLab[0], pLab[1], pLab[2]);
     }
 
     // Beam divergence and crossing angle
-    if (TMath::Abs(fBeamCrossAngle) > 0.) {
+    if (TMath::Abs(fBeamCrossAngle) > 0. || (fBeamCrossAngleMin >= 0. && fBeamCrossAngleMax > 0.)) {
       BeamCrossing(pLab);
       for (int i = 0; i < 3; i++)
         fP[i] = pLab[i];
     }
-    if (TMath::Abs(fBeamDiv) > 0.) {
+    if (TMath::Abs(fBeamDiv) > 0. || (fBeamDivMin >= 0. && fBeamDivMax > 0.)) {
       BeamDivergence(pLab);
       for (int i = 0; i < 3; i++)
         fP[i] = pLab[i];
@@ -134,7 +137,7 @@ void GeneratorSpectators::GenerateEvent() {
     }
 
     if (fDebug)
-      printf(" ### Particle momentum = (%f, %f, %f)\n", fP[0], fP[1], fP[2]);
+      printf(" Particle momentum = (%f, %f, %f)\n", fP[0], fP[1], fP[2]);
 
     Double_t energy = TMath::Sqrt(fP[0] * fP[0] + fP[1] * fP[1] +
                                   fP[2] * fP[2] + mass * mass);
@@ -207,7 +210,7 @@ void GeneratorSpectators::FermiTwoGaussian(Float_t A) {
     fProbintn[i] = fProbintp[i];
   }
   if (fDebug)
-    printf("		Initialization of Fermi momenta distribution \n");
+    printf("  Initialization of Fermi momenta distribution \n");
 }
 
 void GeneratorSpectators::ExtractFermi(Int_t id, Double_t *ddp) {
@@ -242,6 +245,11 @@ void GeneratorSpectators::ExtractFermi(Int_t id, Double_t *ddp) {
 
 void GeneratorSpectators::BeamCrossing(Double_t *pLab)
 {
+  // Sample beam crossing angle if set
+  if (fBeamCrossAngleMin >= 0. && fBeamCrossAngleMax > 0.) {
+    fBeamCrossAngle = gRandom->Uniform(fBeamCrossAngleMin, fBeamCrossAngleMax);
+  }
+
   // Applying beam crossing angle
   pLab[1] = pLab[2]*TMath::Sin(fBeamCrossAngle)+pLab[1]*TMath::Cos(fBeamCrossAngle);
   pLab[2] = pLab[2] * TMath::Cos(fBeamCrossAngle) -
@@ -249,12 +257,17 @@ void GeneratorSpectators::BeamCrossing(Double_t *pLab)
 
   if (fDebug) {
     printf(" Beam crossing angle = %f mrad -> ", fBeamCrossAngle * 1000.);
-    printf("  p = (%f, %f, %f)\n", pLab[0], pLab[1], pLab[2]);
+    printf("p = (%f, %f, %f)\n", pLab[0], pLab[1], pLab[2]);
   }
 }
 
 void GeneratorSpectators::BeamDivergence(Double_t *pLab)
 {
+  // Sample beam divergence if set
+  if (fBeamDivMin >= 0. && fBeamDivMax > 0.) {
+    fBeamDiv = gRandom->Uniform(fBeamDivMin, fBeamDivMax);
+  }
+  
   // Applying beam divergence and crossing angle
   Double_t pmq = 0.;
   for (int i = 0; i < 3; i++)
@@ -292,7 +305,7 @@ void GeneratorSpectators::BeamDivergence(Double_t *pLab)
 
   if (fDebug) {
     printf(" Beam divergence = %f mrad -> ", fBeamDiv * 1000.);
-    printf("  p = (%f, %f, %f)\n", pLab[0], pLab[1], pLab[2]);
+    printf("p = (%f, %f, %f)\n", pLab[0], pLab[1], pLab[2]);
   }
 }
 
