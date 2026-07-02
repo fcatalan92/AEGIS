@@ -100,7 +100,7 @@ void GeneratorSpectators::GenerateEvent() {
     }
 
     // Beam divergence and crossing angle
-    if (TMath::Abs(fBeamCrossAngle) > 0. || (fBeamCrossAngleMin >= 0. && fBeamCrossAngleMax > 0.)) {
+    if (TMath::Abs(fBeamCrossAngle) > 0. || (fBeamCrossAngleMin > -999. && fBeamCrossAngleMax > -999.)) {
       BeamCrossing(pLab);
       for (int i = 0; i < 3; i++)
         fP[i] = pLab[i];
@@ -245,8 +245,8 @@ void GeneratorSpectators::ExtractFermi(Int_t id, Double_t *ddp) {
 
 void GeneratorSpectators::BeamCrossing(Double_t *pLab)
 {
-  // Sample beam crossing angle if set
-  if (fBeamCrossAngleMin >= 0. && fBeamCrossAngleMax > 0.) {
+  // Sample beam crossing angle if set (angle can be negative, so -999 marks "not set")
+  if (fBeamCrossAngleMin > -999. && fBeamCrossAngleMax > -999.) {
     fBeamCrossAngle = gRandom->Uniform(fBeamCrossAngleMin, fBeamCrossAngleMax);
   }
 

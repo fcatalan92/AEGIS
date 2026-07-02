@@ -42,11 +42,11 @@ private:
 
 FairGenerator *GeneratorSingleNeutron(float mom = 2680.,
                                       float beamDiv = 0.000032,
-                                      float beamDivMin = -1.,
-                                      float beamDivMax = -1.,
+                                      float beamDivMin = -999.,
+                                      float beamDivMax = -999.,
                                       float beamCrossAngle = 0.,
-                                      float beamCrossAngleMin = -1.,
-                                      float beamCrossAngleMax = -1.)
+                                      float beamCrossAngleMin = -999.,
+                                      float beamCrossAngleMax = -999.)
 {
   auto wrap = new GeneratorSpectatorsO2();
   auto spec = wrap->getGenerator();
@@ -63,11 +63,11 @@ FairGenerator *GeneratorSingleNeutron(float mom = 2680.,
 
 FairGenerator *GeneratorSingleProton(float mom = 2680.,
                                      float beamDiv = 0.000032,
-                                     float beamDivMin = -1.,
-                                     float beamDivMax = -1.,
+                                     float beamDivMin = -999.,
+                                     float beamDivMax = -999.,
                                      float beamCrossAngle = 0.,
-                                     float beamCrossAngleMin = -1.,
-                                     float beamCrossAngleMax = -1.)
+                                     float beamCrossAngleMin = -999.,
+                                     float beamCrossAngleMax = -999.)
 {
   auto wrap = new GeneratorSpectatorsO2();
   auto spec = wrap->getGenerator();
@@ -87,11 +87,11 @@ FairGenerator *GeneratorNeutrons(int nNeutrons = -1,
                                  bool useFluctuation = false,
                                  float mom = 2680.,
                                  float beamDiv = 0.000032,
-                                 float beamDivMin = -1.,
-                                 float beamDivMax = -1.,
+                                 float beamDivMin = -999.,
+                                 float beamDivMax = -999.,
                                  float beamCrossAngle = 0.,
-                                 float beamCrossAngleMin = -1.,
-                                 float beamCrossAngleMax = -1.)
+                                 float beamCrossAngleMin = -999.,
+                                 float beamCrossAngleMax = -999.)
 {
   auto wrap = new GeneratorSpectatorsO2();
   auto spec = wrap->getGenerator();
@@ -113,11 +113,11 @@ FairGenerator *GeneratorProtons(int nNeutrons = -1,
                                 bool useFluctuation = false,
                                 float mom = 2680.,
                                 float beamDiv = 0.000032,
-                                float beamDivMin = -1.,
-                                float beamDivMax = -1.,
+                                float beamDivMin = -999.,
+                                float beamDivMax = -999.,
                                 float beamCrossAngle = 0.,
-                                float beamCrossAngleMin = -1.,
-                                float beamCrossAngleMax = -1.)
+                                float beamCrossAngleMin = -999.,
+                                float beamCrossAngleMax = -999.)
 {
   auto wrap = new GeneratorSpectatorsO2();
   auto spec = wrap->getGenerator();
