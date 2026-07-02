@@ -250,10 +250,13 @@ void GeneratorSpectators::BeamCrossing(Double_t *pLab)
     fBeamCrossAngle = gRandom->Uniform(fBeamCrossAngleMin, fBeamCrossAngleMax);
   }
 
-  // Applying beam crossing angle
-  pLab[1] = pLab[2]*TMath::Sin(fBeamCrossAngle)+pLab[1]*TMath::Cos(fBeamCrossAngle);
-  pLab[2] = pLab[2] * TMath::Cos(fBeamCrossAngle) -
-            pLab[1] * TMath::Sin(fBeamCrossAngle);
+  // Applying beam crossing angle: rotate the plane selected by fBeamCrossPlane
+  // (=1 -> horizontal, x-z plane; =2 -> vertical, y-z plane)
+  Int_t idx = (fBeamCrossPlane == 1) ? 0 : 1;
+  Double_t p0 = pLab[idx];
+  Double_t z0 = pLab[2];
+  pLab[idx] = z0 * TMath::Sin(fBeamCrossAngle) + p0 * TMath::Cos(fBeamCrossAngle);
+  pLab[2]   = z0 * TMath::Cos(fBeamCrossAngle) - p0 * TMath::Sin(fBeamCrossAngle);
 
   if (fDebug) {
     printf(" Beam crossing angle = %f mrad -> ", fBeamCrossAngle * 1000.);
