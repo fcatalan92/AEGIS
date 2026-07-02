@@ -91,8 +91,8 @@ void GeneratorSpectators::GenerateEvent() {
       pLab[2] = ptot * TMath::Cos(scang);
     }
 
-    for (int i = 0; i < 3; i++)
-      fP[i] = pLab[i];
+    for (int j = 0; j < 3; j++)
+      fP[j] = pLab[j];
 
     if (fDebug) {
       printf("\n Particle momentum before divergence and crossing: ");
@@ -102,13 +102,13 @@ void GeneratorSpectators::GenerateEvent() {
     // Beam divergence and crossing angle
     if (TMath::Abs(fBeamCrossAngle) > 0. || (fBeamCrossAngleMin > -999. && fBeamCrossAngleMax > -999.)) {
       BeamCrossing(pLab);
-      for (int i = 0; i < 3; i++)
-        fP[i] = pLab[i];
+      for (int j = 0; j < 3; j++)
+        fP[j] = pLab[j];
     }
     if (TMath::Abs(fBeamDiv) > 0. || (fBeamDivMin >= 0. && fBeamDivMax > 0.)) {
       BeamDivergence(pLab);
-      for (int i = 0; i < 3; i++)
-        fP[i] = pLab[i];
+      for (int j = 0; j < 3; j++)
+        fP[j] = pLab[j];
     }
 
     Double_t mass = TDatabasePDG::Instance()->GetParticle(fPDGcode)->Mass();
@@ -123,8 +123,8 @@ void GeneratorSpectators::GenerateEvent() {
         ExtractFermi(fPDGcode, ddp);
       fP0 = TMath::Sqrt(fP[0] * fP[0] + fP[1] * fP[1] + fP[2] * fP[2] +
                         mass * mass);
-      for (int i = 0; i < 3; i++)
-        dddp[i] = ddp[i];
+      for (int j = 0; j < 3; j++)
+        dddp[j] = ddp[j];
       dddp0 = TMath::Sqrt(dddp[0] * dddp[0] + dddp[1] * dddp[1] +
                           dddp[2] * dddp[2] + mass * mass);
 
@@ -132,8 +132,8 @@ void GeneratorSpectators::GenerateEvent() {
       TLorentzVector pFermi(dddp[0], dddp[1], dddp[2], dddp0);
       pFermi.Boost(b);
 
-      for (int i = 0; i < 3; i++)
-        fP[i] = pFermi[i];
+      for (int j = 0; j < 3; j++)
+        fP[j] = pFermi[j];
     }
 
     if (fDebug)
@@ -332,10 +332,11 @@ void GeneratorSpectators::AddAngle(Double_t theta1, Double_t phi1,
 
   Double_t rtetsum = TMath::ACos(cz);
   Double_t tetsum = conv*rtetsum;
-  Double_t fisum = 0;
+  Double_t fisum = 0.;
 
   if (tetsum == 0. || tetsum == 180.) {
-    fisum = 0.;
+    angleSum[0] = tetsum;
+    angleSum[1] = fisum;
     return;
   }
 
@@ -348,6 +349,7 @@ void GeneratorSpectators::AddAngle(Double_t theta1, Double_t phi1,
   fisum = conv*TMath::ACos(temp);
   if (cy < 0)
     fisum = 360. - fisum;
+
   angleSum[0] = tetsum;
   angleSum[1] = fisum;
 }
@@ -373,7 +375,7 @@ void GeneratorSpectators::InitParameterizations() {
 Double_t GeneratorSpectators::ImpParFunc(Double_t *x, Double_t *par) {
   // Function for parameterization of impact parameter distribution
   // from fit to Pb-Pb at 5.02 TeV
-  if (x[0] < 5.e-2 or x[0] > 16.5)
+  if (x[0] < 5.e-2 || x[0] > 16.5)
     return 0.0;
 
   if (x[0] < 13.8)

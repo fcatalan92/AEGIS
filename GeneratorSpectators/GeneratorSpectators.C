@@ -108,7 +108,7 @@ FairGenerator *GeneratorNeutrons(int nNeutrons = -1,
   return wrap;
 }
 
-FairGenerator *GeneratorProtons(int nNeutrons = -1,
+FairGenerator *GeneratorProtons(int nProtons = -1,
                                 float b = -1.,
                                 bool useFluctuation = false,
                                 float mom = 2680.,
@@ -126,7 +126,7 @@ FairGenerator *GeneratorProtons(int nNeutrons = -1,
   // TODO: implement parameterizations for the number of protons produced
   // At the moment, those for the neutrons are used
   spec->SetNpartFluctuation(useFluctuation);
-  spec->SetNpart(nNeutrons);
+  spec->SetNpart(nProtons);
   spec->SetMomentum(mom);
   spec->SetDirection(0, 0., 0., 1.);
   spec->SetDivergence(beamDiv);
