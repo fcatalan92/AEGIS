@@ -46,7 +46,8 @@ FairGenerator *GeneratorSingleNeutron(float mom = 2680.,
                                       float beamDivMax = -999.,
                                       float beamCrossAngle = 0.,
                                       float beamCrossAngleMin = -999.,
-                                      float beamCrossAngleMax = -999.)
+                                      float beamCrossAngleMax = -999.,
+                                      int beamCrossPlane = 2)
 {
   auto wrap = new GeneratorSpectatorsO2();
   auto spec = wrap->getGenerator();
@@ -56,7 +57,7 @@ FairGenerator *GeneratorSingleNeutron(float mom = 2680.,
   spec->SetDirection(0, 0., 0., 1.);
   spec->SetDivergence(beamDiv);
   spec->SetSampleDivergence(beamDivMin, beamDivMax);
-  spec->SetCrossing(beamCrossAngle, 2);
+  spec->SetCrossing(beamCrossAngle, beamCrossPlane);
   spec->SetSampleCrossing(beamCrossAngleMin, beamCrossAngleMax);
   return wrap;
 }
@@ -67,7 +68,8 @@ FairGenerator *GeneratorSingleProton(float mom = 2680.,
                                      float beamDivMax = -999.,
                                      float beamCrossAngle = 0.,
                                      float beamCrossAngleMin = -999.,
-                                     float beamCrossAngleMax = -999.)
+                                     float beamCrossAngleMax = -999.,
+                                     int beamCrossPlane = 2)
 {
   auto wrap = new GeneratorSpectatorsO2();
   auto spec = wrap->getGenerator();
@@ -77,7 +79,7 @@ FairGenerator *GeneratorSingleProton(float mom = 2680.,
   spec->SetDirection(0, 0., 0., 1.);
   spec->SetDivergence(beamDiv);
   spec->SetSampleDivergence(beamDivMin, beamDivMax);
-  spec->SetCrossing(beamCrossAngle, 2);
+  spec->SetCrossing(beamCrossAngle, beamCrossPlane);
   spec->SetSampleCrossing(beamCrossAngleMin, beamCrossAngleMax);
   return wrap;
 }
@@ -91,7 +93,8 @@ FairGenerator *GeneratorNeutrons(int nNeutrons = -1,
                                  float beamDivMax = -999.,
                                  float beamCrossAngle = 0.,
                                  float beamCrossAngleMin = -999.,
-                                 float beamCrossAngleMax = -999.)
+                                 float beamCrossAngleMax = -999.,
+                                 int beamCrossPlane = 2)
 {
   auto wrap = new GeneratorSpectatorsO2();
   auto spec = wrap->getGenerator();
@@ -103,7 +106,7 @@ FairGenerator *GeneratorNeutrons(int nNeutrons = -1,
   spec->SetDirection(0, 0., 0., 1.);
   spec->SetDivergence(beamDiv);
   spec->SetSampleDivergence(beamDivMin, beamDivMax);
-  spec->SetCrossing(beamCrossAngle, 2);
+  spec->SetCrossing(beamCrossAngle, beamCrossPlane);
   spec->SetSampleCrossing(beamCrossAngleMin, beamCrossAngleMax);
   return wrap;
 }
@@ -117,7 +120,8 @@ FairGenerator *GeneratorProtons(int nProtons = -1,
                                 float beamDivMax = -999.,
                                 float beamCrossAngle = 0.,
                                 float beamCrossAngleMin = -999.,
-                                float beamCrossAngleMax = -999.)
+                                float beamCrossAngleMax = -999.,
+                                int beamCrossPlane = 2)
 {
   auto wrap = new GeneratorSpectatorsO2();
   auto spec = wrap->getGenerator();
@@ -131,7 +135,7 @@ FairGenerator *GeneratorProtons(int nProtons = -1,
   spec->SetDirection(0, 0., 0., 1.);
   spec->SetDivergence(beamDiv);
   spec->SetSampleDivergence(beamDivMin, beamDivMax);
-  spec->SetCrossing(beamCrossAngle, 2);
+  spec->SetCrossing(beamCrossAngle, beamCrossPlane);
   spec->SetSampleCrossing(beamCrossAngleMin, beamCrossAngleMax);
   return wrap;
 }
