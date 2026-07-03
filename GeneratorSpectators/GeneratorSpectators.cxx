@@ -54,7 +54,7 @@ void GeneratorSpectators::Init() {
   printf("  Impact parameter: %f fm\n", fImpactParameter);
   printf("  Number of particles to be generated (overwrites estimation from impact parameter): %d\n", fNpart);
   printf("  Particle PDG: %d, Track: cosx = %f cosy = %f cosz = %f\n", fPDGcode, fCosx, fCosy, fCosz);
-  printf("  Maximum momentum: %f MeV/c, Fermi flag: %d\n", fPtot, fFermiflag);
+  printf("  Maximum momentum: %f GeV/c, Fermi flag: %d\n", fPtot, fFermiflag);
   printf("  Beam divergence: %f, Crossing angle: %f, plane: %d\n", fBeamDiv, fBeamCrossAngle, fBeamCrossPlane);
   printf("  Sample beam divergence: %f-%f (overwrites beam divergence)\n", fBeamDivMin, fBeamDivMax);
   printf("  Sample crossing angle: %f-%f (overwrites crossing angle)\n", fBeamCrossAngleMin, fBeamCrossAngleMax);
